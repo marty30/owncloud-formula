@@ -22,6 +22,7 @@ Available States
 Add the package repository for your distributon and install the `owncloud-server` package.
 
 Supported distributions :
+
 * `Debian`
 * `Ubuntu`
 * `RedHat`
