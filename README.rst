@@ -23,19 +23,19 @@ Add the package repository for your distributon and install the `owncloud-server
 
 Supported distributions :
 
-* `Debian`
-* `Ubuntu`
-* `RedHat`
-* `Fedora`
-* `CentOS`
+* ``Debian``
+* ``Ubuntu``
+* ``RedHat``
+* ``Fedora``
+* ``CentOS``
 
 
 This package will install the Owncloud application in a path defined by the packager :
 
-- `Debian` and derivatives : `/var/www/owncloud`
-- `RedHat` and derivatives : `/usr/share/owncloud`
+- `Debian` and derivatives : ``/var/www/owncloud``
+- `RedHat` and derivatives : ``/usr/share/owncloud``
 
 TODO
 ====
 
-* Add a state to configure Owncloud `config.php`
+* Add a state to configure Owncloud ``config.php``
