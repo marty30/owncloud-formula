@@ -19,7 +19,7 @@ Available States
 ``owncloud``
 ----------
 
-Add the package repository for your distributon and install the `owncloud-server` package.
+Add the appropriate repo for your distributon and install the `owncloud-server` package.
 
 Supported distributions :
 
