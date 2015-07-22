@@ -1,17 +1,15 @@
 {% from "owncloud/map.jinja" import owncloud with context %}
 
-{% if grains['os_family'] == 'Debian' %}
 owncloud-repo:
   pkgrepo.managed:
-    - name: {{ owncloud.pkg_repo }}
-    - file: {{ owncloud.repo_file }}
+    {% if grains['os_family'] == 'RedHat' %}
+    - name: 'owncloud'
+    - humanname: 'Owncloud RPM repository'
+    - baseurl: {{ owncloud.repo_url }}
+    {% elif grains['os_family'] == 'Debian' %}
+    - name: {{ owncloud.repo_url }}
+    - file: /etc/apt/sources.list.d/owncloud.list
+    {% endif %}
     - key_url: {{ owncloud.key_url }}
     - gpgcheck: 1
-    - require_in:
-      - pkg: {{ owncloud.pkg }}
-{%- endif %}
-
-     
-
-
-
+    - enabled: 1

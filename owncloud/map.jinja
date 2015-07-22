@@ -1,39 +1,30 @@
-{% set owncloud = salt['grains.filter_by']({
-    'Debian': {
-        'pkg': 'owncloud',
-        'repo_file': '/etc/apt/sources.list.d/owncloud.list',
-    },
-    'Ubuntu': {
-        'pkg': 'owncloud',
-        'repo_file': '/etc/apt/sources.list.d/owncloud.list',
-    },
-}, merge=salt['grains.filter_by']({
-    'vivid':{
-        'pkg_repo': 'deb http://download.opensuse.org/repositories/isv:/ownCloud:/community/xUbuntu_15.04/ /',
-        'key_url': 'http://download.opensuse.org/repositories/isv:ownCloud:community/xUbuntu_15.04/Release.key',
-    },
-    'utopic': {
-        'pkg_repo': 'deb http://download.opensuse.org/repositories/isv:/ownCloud:/community/xUbuntu_14.10/ /',
-        'key_url': 'http://download.opensuse.org/repositories/isv:ownCloud:community/xUbuntu_14.10/Release.key',
-    },
-    'trusty': {
-        'pkg_repo':  'deb http://download.opensuse.org/repositories/isv:/ownCloud:/community/xUbuntu_14.04/ /',
-        'key_url': 'http://download.opensuse.org/repositories/isv:ownCloud:community/xUbuntu_14.04/Release.key',
-    },
-    'saucy': {
-        'pkg_repo': 'deb http://download.opensuse.org/repositories/isv:/ownCloud:/community/xUbuntu_13.10/ /',
-        'key_url': 'http://download.opensuse.org/repositories/isv:ownCloud:community/xUbuntu_13.10/Release.key',
-    },
-    'precise': {
-        'pkg_repo': 'deb http://download.opensuse.org/repositories/isv:/ownCloud:/community/xUbuntu_12.04/ /',
-        'key_url': 'http://download.opensuse.org/repositories/isv:ownCloud:community/xUbuntu_12.04/Release.key',
-    },
-    'jessie': {
-        'pkg_repo': 'deb http://download.opensuse.org/repositories/isv:/ownCloud:/community/Debian_8.0/ /',
-        'key_url': 'http://download.opensuse.org/repositories/isv:ownCloud:community/Debian_8.0/Release.key',
-    },
-    'wheezy': {
-        'pkg_repo': 'deb http://download.opensuse.org/repositories/isv:/ownCloud:/community/Debian_7.0/ /',
-      'key_url': 'http://download.opensuse.org/repositories/isv:ownCloud:community/Debian_7.0/Release.key',
-    },
-}, grain='oscodename', merge=salt['pillar.get']('owncloud:lookup'))) %}
+{% set key_url = '' %}
+{% if grains['os_family'] == 'Debian' %}
+    {% set repo_base_url = 'http://download.opensuse.org/repositories/isv:/ownCloud:/community/' %}
+    {% set key_base_url = 'http://download.opensuse.org/repositories/isv:ownCloud:community/' %}
+{% elif grains['os_family'] == 'RedHat' %}
+    {% set repo_base_url = 'http://download.opensuse.org/repositories/isv:ownCloud:community/' %}
+{% endif %}
+
+
+{% if grains['os'] == 'Debian' %}
+    {% set os_string = grains['os'] ~ '_' ~ grains['osmajorrelease'] ~ '.0'%}
+    {% set repo_url = 'deb ' ~ repo_base_url ~ os_string ~ '/ /' %}
+    {% set key_url = key_base_url ~ os_string ~ '/Release.key' %}
+{% elif grains['os'] == 'Ubuntu'%}
+    {% set os_string = 'x' ~ grains['os'] ~ '_' ~ grains['osrelease'] %}
+    {% set repo_url = 'deb ' ~ repo_base_url ~ os_string ~ '/ /' %}
+    {% set key_url = key_base_url ~ os_string ~ '/Release.key' %}
+{% elif grains['os'] == 'Fedora'%}
+    {% set os_string = grains['os'] ~ '_' ~ grains['osrelease'] %}
+    {% set repo_url = repo_base_url ~ os_string ~ '/' %}
+{% elif grains['os'] == 'CentOS'%}
+    {% set os_string = grains['os'] ~ '_' ~ grains['os'] ~ '-' ~ grains['osmajorrelease'] %}
+    {% set repo_url = repo_base_url ~ os_string ~ '/isv:ownCloud:community.repo' %}
+{% endif %}
+
+{% set owncloud = {
+        'repo_url': repo_url,
+        'key_url': key_url,
+    }
+%}
