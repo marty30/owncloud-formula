@@ -1,7 +1,7 @@
 {% set key_url = '' %}
 {% if grains['os_family'] == 'Debian' %}
-    {% set repo_base_url = 'http://download.opensuse.org/repositories/isv:/ownCloud:/community/' %}
-    {% set key_base_url = 'http://download.opensuse.org/repositories/isv:ownCloud:community/' %}
+    {% set repo_base_url = 'http://download.owncloud.org/download/repositories/8.2/' %}
+    {% set key_base_url = 'https://download.owncloud.org/download/repositories/8.2/' %}
 {% elif grains['os_family'] == 'RedHat' %}
     {% set repo_base_url = 'http://download.opensuse.org/repositories/isv:ownCloud:community/' %}
 {% endif %}
