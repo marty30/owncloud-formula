@@ -5,5 +5,5 @@ include:
     
 owncloud-install:
     pkg.installed:
-        - name: 'owncloud-server'
+        - name: 'owncloud'
         - refresh: True
